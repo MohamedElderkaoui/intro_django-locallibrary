@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Detalle de libro{% endblock %}
+
+{% block content %}
+    <h1>{{ author.first_name }}</h1>
+<p>Nombre: {{ author.name }}</p>
+<p>Fecha de nacimiento: {{ author.date_of_birth }}</p>
+<p>Fecha de fallecimiento: {{ author.date_of_death }}</p>
+<p>Resumen: {{ author.summary }}</p>
+
+
+{% endblock %}

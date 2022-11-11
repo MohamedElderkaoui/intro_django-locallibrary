@@ -1,0 +1,20 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Detalle de libro{% endblock %}
+
+{% block content %}
+    <h1>{{ book.title }}</h1>
+<p>TÃ­tulo: {{ book.title }}</p>
+<p>Autor: {{ book.author }}</p>
+<p>Resumen: {{ book.summary }}</p>
+<p>ISBN: {{ book.isbn }}</p>
+{{ book.bookinstance_set.all.count }}
+
+{%for e in book.bookinstance_set.all %}
+
+{{ e.status }}
+
+{% endfor %}
+
+{% endblock %}

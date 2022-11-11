@@ -1,8 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from catalog.models import Book, BookInstance, Author
-
-
+from django.views.generic import ListView, DetailView
 # Create your views here.
 def index_old(request):
     texto = '''<h1>LibrerÃ­a Local</h1>
@@ -42,6 +41,7 @@ def index(request):
     # Number of visits to this view, as counted in the session variable.
     num_visits = request.session.get('num_visits', 0)
     request.session['num_visits'] = num_visits+1
+    UltimosLibros = Book.objects.all().order_by('-id')[:5]
 
     # Render the HTML template index.html with the data in the context variable
     return render(
@@ -52,5 +52,40 @@ def index(request):
             'num_instances':num_instances,
             'num_instances_available':num_instances_available,
             'num_authors':num_authors,
-            'num_visits':num_visits},
+            'num_visits':num_visits
+            ,'UltimosLibros':UltimosLibros},
     )
+## Listas GenÃ©ricas
+class BookListView(ListView):
+    '''Vista genÃ©rica para el listado de libros'''
+    model = Book
+    paginate_by = 20
+    
+
+class BookDetailView(DetailView):
+    '''Vista genÃ©rica para el detalle de un libro'''
+    model = Book 
+
+class AuthorListView(ListView):
+    '''Vista genÃ©rica para el listado de autores'''
+    model = Author
+    paginate_by = 20
+
+class AuthorDetailView(DetailView):
+    '''Vista genÃ©rica para el detalle de un autor'''
+    model = Author
+#busqeuda
+from django.shortcuts import render
+class SearchResultsView(ListView):
+    model = Book
+
+    def get_queryset(self): # new
+        query = self.request.GET.get('q')
+        object_list = Book.objects.filter(
+            Q(title__icontains=query) | Q(author__icontains=query)
+        )
+        return object_list
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['q'] = self.request.GET.get('q')
+        return context

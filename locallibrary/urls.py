@@ -19,6 +19,10 @@ from catalog.views import index
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('catalog/', include('catalog.urls')),
+    path('catalogo/', include('catalog.urls')),
+    path('', index, name='index'),
+
+    # Django Admin, use {% url 'admin:index' %}
+    path('__debug__/', include('debug_toolbar.urls')),
 ]
 

@@ -1,0 +1,25 @@
+<!-- Path: locallibrary\catalog\templates\book_detail.html -->
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}<title>Inicio Biblioteca</title>{% endblock %}
+
+{% block content %}
+<h1>Mi local library</h1>
+<hr>
+<p>Has visitado la página <strong>{{ num_visits }}</strong></p>
+
+<h2>Información General</h2>
+<p>El número de libros es: <strong>{{ num_books }}</strong></p>
+<p>El número de instancias de libros es: <strong>{{ num_instances }}</strong></p>
+<p>El número de instancias disponibles es: <strong>{{ num_instances_available }}</strong></p>
+<p>El número de autores es: <strong>{{ num_authors }}</strong></p>
+<hr>
+
+<h2>Últimos libros</h2>
+<ul>
+    {% for book in UltimosLibros %}
+    <li><strong>{{ book.title }}</strong>: {{ book.author }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}
