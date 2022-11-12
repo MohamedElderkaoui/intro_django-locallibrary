@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     # application nuestra
     'catalog.apps.CatalogConfig',
     'debug_toolbar',
+    'bibliotecas.apps.BibliotecasConfig',
 ]
 
 MIDDLEWARE = [
