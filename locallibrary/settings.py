@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'catalog.apps.CatalogConfig',
     'debug_toolbar',
     'bibliotecas.apps.BibliotecasConfig',
+    ## necesario para la mapas de las bibliotecas de zaragoza
+        ##'map.apps.MapConfig',
 ]
 
 MIDDLEWARE = [

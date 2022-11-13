@@ -8,6 +8,13 @@
 <p>Fecha de nacimiento: {{ author.date_of_birth }}</p>
 <p>Fecha de fallecimiento: {{ author.date_of_death }}</p>
 <p>Resumen: {{ author.summary }}</p>
-
+<div class="d-flex justify-content-center">
+    <div class="p-2">
+        <button type="button" class="btn btn-primary" onclick="history.back()">AtrAs</button>
+    </div>
+    <div class="p-2">
+        <button type="button" class="btn btn-primary" onclick="history.forward()">Adelante</button>
+    </div>
+</div>
 
 {% endblock %}
