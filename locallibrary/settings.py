@@ -39,8 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # application nuestra
     'catalog.apps.CatalogConfig',
-    'debug_toolbar',
-    'bibliotecas.apps.BibliotecasConfig',
+    'debug_toolbar',#debug toolbar
+    #'bibliotecas.apps.BibliotecasConfig',
     ## necesario para la mapas de las bibliotecas de zaragoza
         ##'map.apps.MapConfig',
 ]

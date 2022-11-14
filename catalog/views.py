@@ -1,9 +1,10 @@
-
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse, HttpResponseRedirect
 from catalog.models import Book, BookInstance, Author
 from django.views.generic import ListView, DetailView
 from datetime import datetime
+from catalog.forms import RenewBookForm
+
 
 # Create your views here.
 def index_old(request):
@@ -93,4 +94,75 @@ class AuthorDetailView(DetailView):
         context['busqueda'] = self.query
         context['anterior'] = self.request.META.get('HTTP_REFERER')
         return context
+
+class librosprestados(ListView):
+    model = BookInstance
+    template_name = 'catalog/bookinstance_list_borrowed_user.html'
+    paginate_by = 20
+    
+    def get_queryset(self):
+        return BookInstance.objects.filter(borrower=self.request.user).filter(status__exact='o').order_by('due_back')
+
+class librosprestadosadmin(ListView):
+    model = BookInstance
+    template_name = 'catalog/bookinstance_list_borrowed_admin.html'
+    paginate_by = 20
+    
+    def get_queryset(self):
+        return BookInstance.objects.filter(status__exact='o').order_by('due_back')
+
+# vista para renovar un libro 
+
+def renovar_libro(request, pk):
+    book_instance = get_object_or_404(BookInstance, pk=pk)
+
+    # inicializa la fecha de renovaciÃ³n dentro de 3 semanas
+    proposed_renewal_date = datetime.date.today() + \
+        datetime.timedelta(weeks=3)
+    form = RenewBookForm(initial={'renewal_date': proposed_renewal_date})
+    # 
+    # If this is a POST request then process the Form data
+    if request.method == 'POST':
+
+        # Create a form instance and populate it with data from the request (binding):
+        form = RenewBookForm(request.POST)
+
+        # Check if the form is valid:
+        if form.is_valid():
+            # process the data in form.cleaned_data as required (here we just write it to the model due_back field)
+            book_instance.due_back = form.cleaned_data['renewal_date']
+            book_instance.save()
+        else:
+            # If this is a GET (or any other method) create the default form.
+
+            context = {
+        'form': form,
+        'book_instance': book_instance,
+    }
+
+    return render(request, 'catalog/renovacion_fecha.html', context)
+# SearchResultsListView
+
+class SearchResultsListView(ListView):
+    model = Book
+    
+    def get_queryset(self): # new
+        query = self.request.GET.get('q')
+        # voy a guardar query para el contexto
+        if query:
+            self.query = query
+            return Book.objects.filter(title__icontains=query)
+        else:
+            return []  
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super(SearchResultsListView, self).get_context_data(**kwargs)
+        # Create any data and add it to the context
+        context['busqueda'] = self.query
+        context['anterior'] = self.request.META.get('HTTP_REFERER')
+        return context
+
+
+
+
 
