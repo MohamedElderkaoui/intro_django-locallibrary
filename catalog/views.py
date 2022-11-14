@@ -1,7 +1,10 @@
+
 from django.shortcuts import render
 from django.http import HttpResponse
 from catalog.models import Book, BookInstance, Author
 from django.views.generic import ListView, DetailView
+from datetime import datetime
+
 # Create your views here.
 def index_old(request):
     texto = '''<h1>LibrerÃ­a Local</h1>
@@ -74,18 +77,20 @@ class AuthorListView(ListView):
 class AuthorDetailView(DetailView):
     '''Vista genÃ©rica para el detalle de un autor'''
     model = Author
-#busqeuda
-from django.shortcuts import render
-class SearchResultsView(ListView):
+#busqeudaclass SearchResultsListView(ListView):
     model = Book
-
+    
     def get_queryset(self): # new
         query = self.request.GET.get('q')
-        object_list = Book.objects.filter(
-            Q(title__icontains=query) | Q(author__icontains=query)
-        )
-        return object_list
+        # voy a guardar query para el contexto
+        self.query = query
+        return Book.objects.filter(title__icontains=query)
+    
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['q'] = self.request.GET.get('q')
+        # Call the base implementation first to get a context
+        context = super(SearchResultsListView, self).get_context_data(**kwargs)
+        # Create any data and add it to the context
+        context['busqueda'] = self.query
+        context['anterior'] = self.request.META.get('HTTP_REFERER')
         return context
+
