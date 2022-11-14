@@ -20,6 +20,7 @@ from catalog.views import index
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('catalogo/', include('catalog.urls')),
+    path('bibliotecas/', include('bibliotecas.urls')),
     path('', index, name='index'),
 
     # Django Admin, use {% url 'admin:index' %}
