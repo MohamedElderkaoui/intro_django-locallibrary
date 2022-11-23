@@ -9,7 +9,12 @@
     <ul class="list-group">
     {% for libro in book_list %}
 
-<li class="list-group-item"><a href="{% url 'detalle-libro' libro.id  %}">{{ libro }}</a></li>
+<li class="list-group-item"><a href="{% url 'detalle-libro' libro.id  %}">{{ libro }}</a>::
+    <!-- editar el libro -->
+    <a href="{% url 'book-update' libro.id %}">Editar</a>
+     
+</li>
+
 {% empty %}
 <p>No hay libros disponibles con el nombre de <strong>{{ query }}</strong></p>
     {% endfor %}

@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     # application nuestra
     'catalog.apps.CatalogConfig',
     'debug_toolbar',#debug toolbar
-    'bibliotecas.apps.BibliotecasConfig',
+    #'bibliotecas.apps.BibliotecasConfig',
     ## necesario para la mapas de las bibliotecas de zaragoza
         ##'map.apps.MapConfig',
 ]
@@ -135,6 +135,10 @@ INTERNAL_IPS = [
     # ...
 ]
 
+# Para envío de emails
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    
 import mimetypes
 
 mimetypes.add_type("application/javascript", ".js", True)

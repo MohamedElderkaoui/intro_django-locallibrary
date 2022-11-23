@@ -9,7 +9,9 @@
     <ul class="list-group">
     {% for l in author_list %}
 
-<li class="list-group-item"><a href="{% url 'detalle-autor' l.id  %}">{{ l.first_name}}</a></li>
+<li class="list-group-item"><a href="{% url 'detalle-autor' l.id  %}">{{ l.first_name}}</a>
+    ::<a href="{% url 'author-delete' l.id  %}">Eliminar</a>::<a href="{% url 'author-update' l.id  %}">Editar</a></li>
+
 
     {% endfor %}
 </ul>

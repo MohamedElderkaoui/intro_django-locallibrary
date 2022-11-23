@@ -2,6 +2,11 @@ from django.db import models
 import uuid # Required for unique book instances
 # https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Models
 # Create your models here.
+from django.db import models
+import uuid
+from django.utils.translation import gettext_lazy as _
+from django.contrib import admin
+from django.utils.html import format_html
 
 class Book(models.Model):
     """Model representing a book (but not a specific copy of a book)."""
@@ -21,12 +26,16 @@ class Book(models.Model):
     genre = models.ManyToManyField('Genre', 
         help_text='Select a genre for this book')
 
-    language = models.ForeignKey('Language', on_delete=models.SET_NULL, null=True)
+    language = models.ForeignKey('Language', on_delete=models.SET_NULL, null=True, blank=True)
     
     def __str__(self):
         """String for representing the Model object.""" 
         return self.title
+    def display_genre(self):
+        """Create a string for the Genre. This is required to display genre in Admin."""
+        return ', '.join(genre.name for genre in self.genre.all()[:3])
 
+    display_genre.short_description = 'Genre'
 class Genre(models.Model):
     """Model representing a book genre."""
     name = models.CharField(max_length=200,
@@ -65,7 +74,7 @@ class BookInstance(models.Model):
     book = models.ForeignKey('Book', on_delete=models.RESTRICT, null=True)
     imprint = models.CharField(max_length=200, blank=True)
     due_back = models.DateField(null=True, blank=True)
-
+    image = models.ImageField(upload_to='images', blank=True, null=True)
     LOAN_STATUS = (
         ('m', 'Maintenance'),
         ('o', 'On loan'),
@@ -87,3 +96,18 @@ class BookInstance(models.Model):
     def __str__(self):
         """String for representing the Model object."""
         return f'{self.id} ({self.book.title})'
+    @admin.display(description=_("Image"))
+    def img_image(self):
+        if self.image:
+            return format_html(
+                '<img src="{}" width="80" />'.format(
+                    self.image.url)
+            )
+        else:
+            return ' no imagen'
+    @admin.display(description=_("Status"))
+    def status_color(self):
+        return format_html(
+        '<span style="color:{}; font-size:18px;">📗</span>',
+        'green' if self.status == 'a' else 'red'
+    )

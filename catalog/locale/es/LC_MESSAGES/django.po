@@ -1,0 +1,35 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-11-21 10:01+0100\n"
+"PO-Revision-Date: 2022-11-21 10:09+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.2\n"
+
+#: .\forms.py:16 .\forms.py:36
+msgid "Invalid date - renewal in past"
+msgstr "Fecha inválida - renovación en el pasado"
+
+#: .\forms.py:20 .\forms.py:40
+msgid "Invalid date - renewal more than 4 weeks ahead"
+msgstr "Fecha no válida - renovación con más de 4 semanas de antelación"
+
+#: .\forms.py:48
+msgid "Renewal date"
+msgstr "Fecha de renovación"
+
+#: .\forms.py:49
+msgid "Enter a date between now and 4 weeks (default 3)."
+msgstr "Ingrese una fecha entre ahora y 4 semanas (predeterminado 3)."

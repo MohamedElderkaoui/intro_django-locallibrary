@@ -1,9 +1,18 @@
+
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from catalog.models import Book, BookInstance, Author
 from django.views.generic import ListView, DetailView
-from datetime import datetime
-from catalog.forms import RenewBookForm
+import datetime
+from catalog.forms import RenewBookForm, RenewBookModelForm
+from django.urls import reverse
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+from catalog.forms import ContactForm
+from django.core.mail import send_mail, BadHeaderError
+from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -27,7 +36,12 @@ def acerca_de(request):
     <iframe width="560" height="315" src="https://www.youtube.com/embed/EZ5sIrfmSwc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     
     '''
-    return HttpResponse(texto)
+    contexto ={}
+    
+    contexto['tetle'] = 'Acerca de'
+    contexto['coords'] = "40.4167754,-3.7037902"
+    
+    return render(request, 'catalog/acerca_de.html', contexto)
 
 def index(request):
     """View function for home page of site."""
@@ -79,21 +93,8 @@ class AuthorDetailView(DetailView):
     '''Vista genÃ©rica para el detalle de un autor'''
     model = Author
 #busqeudaclass SearchResultsListView(ListView):
-    model = Book
     
-    def get_queryset(self): # new
-        query = self.request.GET.get('q')
-        # voy a guardar query para el contexto
-        self.query = query
-        return Book.objects.filter(title__icontains=query)
-    
-    def get_context_data(self, **kwargs):
-        # Call the base implementation first to get a context
-        context = super(SearchResultsListView, self).get_context_data(**kwargs)
-        # Create any data and add it to the context
-        context['busqueda'] = self.query
-        context['anterior'] = self.request.META.get('HTTP_REFERER')
-        return context
+  
 
 class librosprestados(ListView):
     model = BookInstance
@@ -119,7 +120,7 @@ def renovar_libro(request, pk):
     # inicializa la fecha de renovaciÃ³n dentro de 3 semanas
     proposed_renewal_date = datetime.date.today() + \
         datetime.timedelta(weeks=3)
-    form = RenewBookForm(initial={'renewal_date': proposed_renewal_date})
+    form = RenewBookModelForm(initial={'renewal_date': proposed_renewal_date})
     # 
     # If this is a POST request then process the Form data
     if request.method == 'POST':
@@ -134,8 +135,11 @@ def renovar_libro(request, pk):
             book_instance.save()
         else:
             # If this is a GET (or any other method) create the default form.
-
-            context = {
+            # funcionamiento de la vista
+            proposed_renewal_date = datetime.date.today() + datetime.timedelta(weeks=3)# set week to 3+we
+            
+            form = RenewBookModelForm(initial={'renewal_date': proposed_renewal_date})
+        context = {
         'form': form,
         'book_instance': book_instance,
     }
@@ -161,8 +165,52 @@ class SearchResultsListView(ListView):
         context['busqueda'] = self.query
         context['anterior'] = self.request.META.get('HTTP_REFERER')
         return context
+    ''' funcion para buscar libros, categorias y autores''' 
+    def getbooks(self):
+        return Book.objects.filter(title__icontains=self.query)
+    def getauthors(self):
+        if not self.query:
+            return []
+        return Author.objects.filter(last_name__icontains=self.query)
+    def getbooksgenres(self):
+        if self.query:
+            return Book.objects.filter(genre__name__icontains=self.query)
+
+class AuthorCreate(CreateView):
+    model = Author
+    fields = ['first_name', 'last_name', 'date_of_birth', 'date_of_death']
+    #initial = {'date_of_death': '11/06/2020'}
+    success_url= reverse_lazy('lista-libros')
+
+class AuthorUpdate(UpdateView):
+    model = Author
+    fields = '__all__' # Not recommended (potential security issue if more fields added)
+    success_url= reverse_lazy('lista-libros')
+
+class AuthorDelete(DeleteView):
+    model = Author
+    success_url = reverse_lazy('lista-libros')
+    
+class BookCreate(CreateView):
+    model = Book
+    fields = ['title', 'author', 'summary', 'isbn', 'genre', 'language']
+    success_url= reverse_lazy('lista-libros')
+
+class BookUpdate(UpdateView):
+    model = Book
+    #message = "Libro actualizado"
+    #messages.success(requests, 'Libro actualizado')
+    fields = '__all__' # Not recommended (potential security issue if more fields added)
+    success_url= reverse_lazy('lista-libros')
+    
+class BookDelete(DeleteView):
+    model = Book
+    requests = "POST"
+    #messages.success(requests, 'Libro eliminado')
+    success_url = reverse_lazy('lista-libros')
 
 
 
+#Mensajes de éxito al guardar y modificar.
 
 
