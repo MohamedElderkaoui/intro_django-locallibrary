@@ -1,4 +1,9 @@
 
+from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.mixins import UserPassesTestMixin
+from django.shortcuts import redirect
+from django.conf import settings
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from catalog.models import Book, BookInstance, Author
@@ -214,3 +219,21 @@ class BookDelete(DeleteView):
 #Mensajes de éxito al guardar y modificar.
 
 
+@permission_required('catalog.can_mark_returned')
+@permission_required('catalog.can_edit')
+def my_view(request):
+    if not request.user.is_authenticated:
+        return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
+    
+
+class MyView(UserPassesTestMixin, View):
+
+    def test_func(self):
+        return self.request.user.email.endswith('@example.com')
+    
+    
+    permission_required = 'catalog.can_mark_returned'
+    # Or multiple permissions
+    permission_required = ('catalog.can_mark_returned', 'catalog.can_edit')
+    # Note that 'catalog.can_edit' is just an example
+    # the catalog application doesn't have such permission!

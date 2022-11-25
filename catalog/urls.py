@@ -9,7 +9,9 @@ from .views import (index, acerca_de,
                     librosprestados,
                      SearchResultsListView, AuthorCreate, AuthorUpdate, AuthorDelete, BookCreate, BookUpdate, BookDelete,
                      #success
-                     )                                          
+                     
+                     )     
+from django.contrib.auth.decorators import login_required                                     
 
 urlpatterns = [
     path('', index, name='index'),
