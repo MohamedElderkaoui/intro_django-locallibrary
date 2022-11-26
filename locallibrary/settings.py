@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     # application nuestra
     'catalog.apps.CatalogConfig',
     'debug_toolbar',#debug toolbar
-    #'bibliotecas.apps.BibliotecasConfig',
+    'django.contrib.sites',#django allauth
+    'bibliotecas.app.BibliotecasConfig',
     ## necesario para la mapas de las bibliotecas de zaragoza
         ##'map.apps.MapConfig',
         'mundial.apps.MundialConfig',

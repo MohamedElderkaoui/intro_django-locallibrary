@@ -6,5 +6,13 @@
     {{ form.as_table }}
   </table>
   <input type="submit" value="Submit" />
+  <!--muestra el mensaje de error-->
+  {% if form.errors %}
+  <p style="color: red">Please correct the error below.</p>
+  {% endif %}
+  <!--muestra el mensaje de éxito-->
+  {% if message %}  
+  <p style="color: green">{{ message }}</p>
+  {% endif %}
 </form>
 {% endblock %}

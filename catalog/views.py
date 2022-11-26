@@ -18,6 +18,21 @@ from django.core.mail import send_mail, BadHeaderError
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse, HttpResponseRedirect
+from catalog.models import Book, BookInstance, Author
+from django.views.generic import ListView, DetailView
+import datetime
+from catalog.forms import RenewBookForm, RenewBookModelForm
+from django.urls import reverse
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+from catalog.forms import ContactForm
+from django.core.mail import send_mail, BadHeaderError
+from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
+
 
 
 # Create your views here.
@@ -226,14 +241,3 @@ def my_view(request):
         return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
     
 
-class MyView(UserPassesTestMixin, View):
-
-    def test_func(self):
-        return self.request.user.email.endswith('@example.com')
-    
-    
-    permission_required = 'catalog.can_mark_returned'
-    # Or multiple permissions
-    permission_required = ('catalog.can_mark_returned', 'catalog.can_edit')
-    # Note that 'catalog.can_edit' is just an example
-    # the catalog application doesn't have such permission!
