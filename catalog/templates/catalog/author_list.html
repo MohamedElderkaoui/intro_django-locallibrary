@@ -9,7 +9,9 @@
     <ul class="list-group">
     {% for l in author_list %}
 
-<li class="list-group-item"><a href="{% url 'detalle-autor' l.id  %}">{{ l.first_name}}</a></li>
+<li class="list-group-item"><a href="{% url 'detalle-autor' l.id  %}">{{ l.first_name}}</a>
+    ::<a href="{% url 'author-delete' l.id  %}">Eliminar</a>::<a href="{% url 'author-update' l.id  %}">Editar</a></li>
+
 
     {% endfor %}
 </ul>
@@ -31,4 +33,12 @@
             </span>
         </div>
     {% endif %}
+    <div class="d-flex justify-content-center">
+        <div class="p-2">
+            <button type="button" class="btn btn-primary" onclick="history.back()">AtrAs</button>
+        </div>
+        <div class="p-2">
+            <button type="button" class="btn btn-primary" onclick="history.forward()">Adelante</button>
+        </div>
+    </div>
 {% endblock %}

@@ -9,8 +9,14 @@
     <ul class="list-group">
     {% for libro in book_list %}
 
-<li class="list-group-item"><a href="{% url 'detalle-libro' libro.id  %}">{{ libro }}</a></li>
+<li class="list-group-item"><a href="{% url 'detalle-libro' libro.id  %}">{{ libro }}</a>::
+    <!-- editar el libro -->
+    <a href="{% url 'book-update' libro.id %}">Editar</a>
+     
+</li>
 
+{% empty %}
+<p>No hay libros disponibles con el nombre de <strong>{{ query }}</strong></p>
     {% endfor %}
 </ul>
 
@@ -20,15 +26,28 @@
         <div class="pagination">
             <span class="page-links">
                 {% if page_obj.has_previous %}
-                    <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
+                    <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">
+                      <button type="button" class="btn btn-primary" onclick="history.back()">AtrÃ¡s</button>
+                    </a>
                 {% endif %}
                 <span class="page-current">
                     Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
                 </span>
                 {% if page_obj.has_next %}
-                    <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
+                    <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">
+                        <button type="button" class="btn btn-primary" onclick="history.forward()">Adelante</button>
+                    </a>
                 {% endif %}
             </span>
         </div>
     {% endif %}
+    <div class="d-flex justify-content-center">
+        <div class="p-2">
+            <button type="button" class="btn btn-primary" onclick="history.back()">
+                ATRAS
+            </button>
+        </div>
+        <div class="p-2">
+            <button type="button" class="btn btn-primary" onclick="history.forward()">Adelante</button>
+        </div>
     {% endblock %}
