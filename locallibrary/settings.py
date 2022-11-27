@@ -41,11 +41,12 @@ INSTALLED_APPS = [
     'catalog.apps.CatalogConfig',
     'debug_toolbar',#debug toolbar
     'django.contrib.sites',#django allauth
-    'Bibliotecas.apps.BibliotecasConfig',#bibliotecas
+    'bibliotecas.apps.BibliotecasConfig',#bibliotecas -> la app en minúsulas!!!
+    
     ## necesario para la mapas de las bibliotecas de zaragoza
         ##'map.apps.MapConfig',
     'mundial.apps.MundialConfig',
-]
+]   
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

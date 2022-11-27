@@ -24,7 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('catalogo/', include('catalog.urls')),
     # añadimos la url de la app bibliotecas como submodulo
-    path('Bibliotecas/', include('Bibliotecas.urls')),
+    path('bibliotecas/', include('bibliotecas.urls')),   # urls de la app nueva de bibliotecas
     path('', index, name='index'),
 
     # Django Admin, use {% url 'admin:index' %}
