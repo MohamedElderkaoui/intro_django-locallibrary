@@ -16,13 +16,19 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from catalog.views import index
-
+from django.contrib import admin
+from django.urls import path, include
+from django.conf.urls.static import static
+from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('catalogo/', include('catalog.urls')),
+    # añadimos la url de la app bibliotecas como submodulo
+    path('bibliotecas/', include('bibliotecas.urls')),   # urls de la app nueva de bibliotecas
     path('', index, name='index'),
 
     # Django Admin, use {% url 'admin:index' %}
     path('__debug__/', include('debug_toolbar.urls')),
-]
-
+]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += [
+    path('accounts/', include('django.contrib.auth.urls')),]

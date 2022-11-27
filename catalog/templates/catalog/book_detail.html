@@ -16,5 +16,18 @@
 {{ e.status }}
 
 {% endfor %}
+<!-- 
 
+    dos botones, uno para ir a la pagina anterior y otro para ir a la pagina posterior con javascript extreño
+
+ -->
+ <!-- dos botones -->
+    <div class="d-flex justify-content-center">
+        <div class="p-2">
+            <button type="button" class="btn btn-primary" onclick="history.back()">AtrAs</button>
+        </div>
+        <div class="p-2">
+            <button type="button" class="btn btn-primary" onclick="history.forward()">Adelante</button>
+        </div>
+    </div>
 {% endblock %}

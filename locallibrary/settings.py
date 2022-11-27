@@ -39,8 +39,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # application nuestra
     'catalog.apps.CatalogConfig',
-    'debug_toolbar',
-]
+    'debug_toolbar',#debug toolbar
+    'django.contrib.sites',#django allauth
+    'bibliotecas.apps.BibliotecasConfig',#bibliotecas -> la app en minúsulas!!!
+    
+    ## necesario para la mapas de las bibliotecas de zaragoza
+        ##'map.apps.MapConfig',
+    'mundial.apps.MundialConfig',
+]   
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -132,6 +138,10 @@ INTERNAL_IPS = [
     # ...
 ]
 
+# Para envío de emails
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    
 import mimetypes
 
 mimetypes.add_type("application/javascript", ".js", True)

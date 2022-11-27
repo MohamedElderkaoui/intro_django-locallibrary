@@ -1,3 +1,6 @@
 [submodule "bibliotecas"]
 	path = bibliotecas
 	url = https://github.com/DWES-LE/aplicacion-bibliotecas-MohamedElderkaoui
+[submodule "mundial"]
+	path = mundial
+	url = https://github.com/MohamedElderkaoui/mundial-futbol-app.git
