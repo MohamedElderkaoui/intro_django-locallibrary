@@ -41,10 +41,10 @@ INSTALLED_APPS = [
     'catalog.apps.CatalogConfig',
     'debug_toolbar',#debug toolbar
     'django.contrib.sites',#django allauth
-    'bibliotecas.app.BibliotecasConfig',
+    'Bibliotecas.apps.BibliotecasConfig',#bibliotecas
     ## necesario para la mapas de las bibliotecas de zaragoza
         ##'map.apps.MapConfig',
-        'mundial.apps.MundialConfig',
+    'mundial.apps.MundialConfig',
 ]
 
 MIDDLEWARE = [

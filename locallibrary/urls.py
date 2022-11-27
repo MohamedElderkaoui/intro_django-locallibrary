@@ -24,12 +24,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('catalogo/', include('catalog.urls')),
     # añadimos la url de la app bibliotecas como submodulo
-    path('bibliotecas/', include('bibliotecas.urls')),
+    path('Bibliotecas/', include('Bibliotecas.urls')),
     path('', index, name='index'),
 
     # Django Admin, use {% url 'admin:index' %}
     path('__debug__/', include('debug_toolbar.urls')),
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += [
-    path('accounts/', include('django.contrib.auth.urls')),
-xz]
+    path('accounts/', include('django.contrib.auth.urls')),]
