@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     
     ## necesario para la mapas de las bibliotecas de zaragoza
         ##'map.apps.MapConfig',
-    'mundial.apps.MundialConfig',
 ]   
 
 MIDDLEWARE = [
