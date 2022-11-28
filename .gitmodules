@@ -7,3 +7,6 @@
 [submodule "mundiall"]
 	path = mundiall
 	url = https://github.com/lmorillas/mundial-futbol-app.git
+[submodule "mundiaal"]
+	path = mundiaal
+	url = https://github.com/MohamedElderkaoui/mundial-futbol-app.git
